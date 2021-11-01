@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Corona Cases Tracker</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container">
+<h1>COVID-19 Tracker</h1>
+<p>This application tracks number of Corona cases across the globe</p>
+
+<div class="jumbotron">
+    <h1 class="display-4" th:text="${globalTotal}"></h1>
+    <p class="lead">Total number of COVID-19 cases across the Globe</p>
+    <hr class="my-4">
+    <p>
+        <span>Total new cases reported since previous day </span>
+        <span th:text="${newCasesTotal}"></span>
+    </p>
+</div>
+    <div class="form-group">
+        <label for="myInput">Search Here:</label>
+        <input type="text" class="form-control" id="myInput">
+    </div>
+
+    <table class="table" id="myTable">
+        <thead>
+            <tr>
+                <th>State</th>
+                <th>Country</th>
+                <th>Total Cases</th>
+                <th>Changes since last day</th>
+            </tr>
+        </thead>
+        <tbody id="myTableBody">
+        <tr th:each="stat : ${stats}">
+            <td th:text="${stat.state}"></td>
+            <td th:text="${stat.country}"></td>
+            <td th:text="${stat.latestTotalCases}"></td>
+            <td th:text="${stat.diffFromPrevDay}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTableBody tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+</body>
+
+</html>
